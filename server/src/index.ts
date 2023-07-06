@@ -1,11 +1,17 @@
 import express, { Express, Request, Response } from "express";
+import morgan from "morgan";
+import "dotenv/config";
+import router from "./routes/routes";
 
 const app: Express = express();
 
-app.get("/", (req, res) => {
-  res.status(200).send("Hello World!");
-});
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(morgan("dev"));
+app.use("/api", router);
 
-app.listen(8000, () => {
-  console.log("Server running on port 8000");
+const PORT = process.env.PORT || 8000;
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT} 🚀`);
 });
